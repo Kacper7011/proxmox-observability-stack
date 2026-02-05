@@ -1,0 +1,78 @@
+# Global
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+.idea/
+.vscode/
+*.iml
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Terraform variable files (SECRETS)
+*.tfvars
+*.tfvars.json
+
+.terraformrc
+terraform.rc
+
+# Ansible
+
+# Retry files
+*.retry
+
+# Facts cache
+.fact_cache/
+ansible_facts_cache/
+
+# Inventory generated dynamically
+inventory/generated/
+inventory/*.json
+inventory/*.yaml
+
+# Vault
+*.vault
+vault.yml
+vault.yaml
+.vault_pass
+.vault_password
+
+# SSH & keys
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+ssh_config
+
+# Docker
+docker-compose.override.yml
+**/data/
+**/volumes/
+
+# Grafana / Prometheus data
+grafana-data/
+prometheus-data/
+
+# Logs & metrics
+logs/
+metrics/
+
+# OS / temp
+tmp/
+temp/
+.cache/
+
+# Local-only configs
+.env
+.env.*
+.envrc
