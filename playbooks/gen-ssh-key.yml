@@ -1,10 +1,10 @@
-- name: Generate SSH key for ansible automation user and your system user
+- name: Generate SSH key for ansible automation user
   hosts: localhost
 
   tasks:
     - name: Ensure that .ssh directory exists
       ansible.builtin.file:
-        path: "/home/{{ system_user }}/.ssh"
+        path: "/home/{{ system_user }}/.ssh/.bootstrap"
         state: directory
         owner: "{{ system_user }}"
         group: "{{ system_user }}"
@@ -13,15 +13,6 @@
     - name: Generate SSH key for ansible user
       ansible.builtin.openssh_keypair:
         path: "/home/{{ system_user }}/.ssh/ansible_ed25519"
-        type: ed25519
-        owner: "{{ system_user }}"
-        group: "{{ system_user }}"
-        mode: '0600'
-        state: present
-
-    - name: Generate SSH key for system user
-      ansible.builtin.openssh_keypair:
-        path: "/home/{{ system_user }}/.ssh/proxmox_vms_ed25519"
         type: ed25519
         owner: "{{ system_user }}"
         group: "{{ system_user }}"
