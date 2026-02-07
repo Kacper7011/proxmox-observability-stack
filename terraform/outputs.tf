@@ -1,6 +1,6 @@
 output "vm_ipv4" {
-    value = try(
-        proxmox_virtual_environment_vm.prox-monitoring.ipv4_addresses[0][0],
-        "IP not assigned yet"
-    )
+  value = one([
+    for ip in flatten(proxmox_virtual_environment_vm.prox-monitoring.ipv4_addresses) :
+    ip if ip != "127.0.0.1"
+  ])
 }
