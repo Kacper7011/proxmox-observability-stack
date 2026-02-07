@@ -1,0 +1,24 @@
+- name: Allow ansible user to use sudo without password
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/ansible
+    content: |
+      ansible ALL=(ALL) NOPASSWD:ALL
+    owner: root
+    group: root
+    mode: '0440'
+    validate: 'visudo -cf %s'
+
+- name: Configure sudo for system user
+  ansible.builtin.copy:
+    dest: "/etc/sudoers.d/{{ bootstrap_system_user }}"
+    content: |
+      {{ bootstrap_system_user }} ALL=(ALL) ALL
+    owner: root
+    group: root
+    mode: '0440'
+    validate: 'visudo -cf %s'
+
+- name: Clean up unused sudoers files
+  ansible.builtin.file:
+    path: /etc/sudoers.d/90-cloud-init-users
+    state: absent
