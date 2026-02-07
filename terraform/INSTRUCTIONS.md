@@ -118,72 +118,87 @@ If SDN is not used, this step is not required.
 
 ---
 
-## 8. TLS certificate
+## 8. Snippets datastore (required for cloud-init)
 
-If Proxmox uses:
-- a self-signed certificate
-- or a certificate from an unknown CA
+When using cloud-init with Terraform and the `bpg/proxmox` provider,
+user-data must be uploaded to Proxmox as a **snippet file**.
 
-Terraform will reject the HTTPS connection.
+Snippets are supported **only by Directory-type datastores**.
+They are NOT supported by ZFS, LVM, or ISO-only storages.
 
-You must either:
-- allow insecure TLS connections (lab setup)
-- or install a trusted certificate (production)
+If no snippets datastore exists, Terraform will fail when uploading cloud-init
+files.
 
-This is required for connectivity.
+### Create a snippets datastore
 
----
+In the Proxmox GUI:
 
-## 9. Secret handling
+1. Go to: `Datacenter → Storage`
+2. Click **Add → Directory**
+3. Set:
+   - ID: `snippets`
+   - Directory: `/var/lib/vz/snippets`
+   - Content: **Snippets**
+   - Nodes: select the target node(s), e.g. `pve01`
+4. Save
 
-The API token:
-- must not be committed to the repository
-- should be stored locally or in a secrets manager
-
-Terraform:
-- stores secrets in the state file as plaintext
-- therefore state files must never be committed
-
----
-
-## 10. Repository rules
-
-The repository must:
-- ignore Terraform state files
-- ignore variable files containing secrets
-- include the `.terraform.lock.hcl` file
-
-Without the lock file, the setup is not reproducible.
+This datastore will be used to store cloud-init user-data files uploaded by Terraform.
 
 ---
 
-## 11. Conditions for a working setup
+## 9. Snippets ACL permissions (required)
 
-Terraform will work only if:
+By default, API tokens do NOT have permission to upload files to datastores.
 
-- Proxmox GUI is reachable
-- the API endpoint is correct
-- a technical user exists
-- an API token exists
-- the token has ACL permissions
-- SDN permissions are present when SDN is used
-- TLS does not block HTTPS
-- secrets are not stored in the repository
+When using a snippets datastore, the Terraform API token must be granted
+explicit permissions for that datastore path.
 
-Missing any item will cause initialization or authorization errors.
+Without this permission, Terraform will fail when creating
+`proxmox_virtual_environment_file` resources.
+
+### Assign datastore permissions
+
+In the Proxmox GUI:
+
+1. Go to: `Datacenter → Permissions`
+2. Add **User Permission**
+3. Set:
+   - Path: `/storage/snippets`
+   - User: `terraform@pve`
+   - Role: `PVEDatastoreAdmin`
+   - Propagate: **enabled**
+4. Save
+
+This permission allows Terraform to upload cloud-init snippets to Proxmox.
+
+## 10. SSH access to Proxmox node (required)
+
+Some Terraform operations (e.g. uploading cloud-init snippets) require
+**SSH access to the Proxmox node**, in addition to API access.
+
+Without SSH access, Terraform will fail when creating
+`proxmox_virtual_environment_file` resources.
 
 ---
 
-## 12. Environment changes
+### Requirements
 
-Any change to:
-- users
-- API tokens
-- ACL permissions
-- SDN configuration
-- TLS certificates
-- Proxmox address
+- SSH must be enabled on the Proxmox node
+- Key-based authentication is required
+- The SSH user must have access to the snippets datastore
 
-requires updating the Terraform configuration.
+Typically, Terraform connects as `root`.
 
-These changes are not detected automatically.
+---
+
+### Terraform configuration
+
+The SSH private key path must be provided via a Terraform variable and set
+locally in a `tfvars` file.
+
+Example:
+
+```hcl
+proxmox_ssh_private_key_path = "/home/user/.ssh/id_ed25519"
+```
+
