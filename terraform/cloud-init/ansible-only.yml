@@ -1,4 +1,5 @@
 #cloud-config
+
 users:
 - name: ansible
   groups: sudo
@@ -11,6 +12,9 @@ users:
 ssh_pwauth: false
 disable_root: true
 
+packages:
+- qemu-guest-agent
+
 write_files:
 - path: /etc/ssh/sshd_config.d/99-ansible-hardening.conf
   owner: root:root
@@ -22,4 +26,6 @@ write_files:
     KbdInteractiveAuthentication no
 
 runcmd:
+- systemctl enable qemu-guest-agent
+- systemctl start qemu-guest-agent
 - systemctl restart ssh
