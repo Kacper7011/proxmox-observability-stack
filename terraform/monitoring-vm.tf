@@ -17,6 +17,9 @@ resource "proxmox_virtual_environment_vm" "prox-monitoring" {
 
     initialization {
         datastore_id = "local-zfs"
+
+        user_data_file_id = proxmox_virtual_environment_file.ansible_cloud_init.id
+
       ip_config {
         ipv4 {
           address = "dhcp"
