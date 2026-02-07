@@ -1,0 +1,6 @@
+- name: Bootstrap
+  hosts: prox-monitoring
+  become: true
+  roles:
+    - bootstrap
+    
