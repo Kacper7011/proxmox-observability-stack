@@ -11,6 +11,12 @@ resource "proxmox_virtual_environment_vm" "prox-monitoring" {
         floating  = 4096
     }
 
+    disk {
+        interface = "scsi0"
+        datastore_id = "local-zfs"
+        size = 50
+    }
+
     network_device {
         bridge = "vmbr0"
     }
