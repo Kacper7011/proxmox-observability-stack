@@ -5,3 +5,8 @@
   ansible.builtin.reboot:
     msg: "Rebooting system after bootstraping"
     reboot_timeout: 300
+
+- name: Restart SSH
+  ansible.builtin.service:
+    name: ssh
+    state: restarted
