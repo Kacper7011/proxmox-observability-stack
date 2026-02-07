@@ -15,3 +15,13 @@ variable "proxmox_ssh_private_key_path" {
     type = string
     description = "Path to SSH private key for Proxmox node access"
 }
+
+variable "ansible_ssh_private_key_path" {
+    type = string
+    description = "Path to SSH private key used by ansible"
+}
+
+variable "vm_name" {
+    type = string
+    description = "Name of the proxmox VM"
+}
