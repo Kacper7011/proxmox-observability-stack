@@ -8,19 +8,15 @@ resource "proxmox_virtual_environment_vm" "prox-monitoring" {
 
     memory {
         dedicated = 4096
-    }
-
-    disk {
-        datastore_id = "local-zfs"
-        interface = "scsi0"
-        size = 60
+        floating  = 4096
     }
 
     network_device {
-      bridge = "vmbr0"
+        bridge = "vmbr0"
     }
 
     initialization {
+        datastore_id = "local-zfs"
       ip_config {
         ipv4 {
           address = "dhcp"
