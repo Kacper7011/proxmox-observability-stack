@@ -1,0 +1,25 @@
+- name: Create system user group if not exists
+  ansible.builtin.group:
+    name: "{{ bootstrap_system_user }}"
+    state: present
+
+- name: Create system user if not exists
+  ansible.builtin.user:
+    name: "{{ bootstrap_system_user }}"
+    group: "{{ bootstrap_system_user }}"
+    shell: /bin/bash
+    create_home: yes
+    groups:
+      - adm
+      - cdrom
+      - sudo
+      - dip
+      - plugdev
+      - users
+    state: present
+
+- name: Add SSH key to authorized
+  ansible.builtin.authorized_key:
+    user: "{{ bootstrap_system_user }}"
+    state: present
+    key: "{{ bootstrap_user_ssh_key }}"
