@@ -15,4 +15,5 @@
       - apt-transport-https
       - python3
       - python3-apt
+      - systemd-timesyncd
     state: present
