@@ -79,7 +79,7 @@ An incorrect format will result in an authentication error.
 
 ---
 
-## 6. Assign permissions (ACL)
+## 6. Assign base permissions (ACL)
 
 An API token has **no permissions by default**.
 
@@ -92,11 +92,33 @@ In the Proxmox GUI:
    - User: `terraform@pve`
    - Role: `PVEAdmin`
 
-Without ACLs, Terraform will return `403 Forbidden`.
+Without these permissions, Terraform will return `403 Forbidden`.
 
 ---
 
-## 7. TLS certificate
+## 7. SDN permissions (required when using SDN networks)
+
+If virtual machines are connected to **SDN-based networks**, additional permissions are required.
+
+Without SDN permissions, Terraform will fail with `403 Forbidden` during VM creation or cloning.
+
+In the Proxmox GUI:
+
+1. Go to: `Datacenter → Permissions`
+2. Add **User Permission**
+3. Set:
+   - Path: `/sdn/zones`
+   - User: `terraform@pve`
+   - Role: `PVESDNUser`
+   - Propagate: **enabled**
+
+This permission allows Terraform to attach VMs to SDN zones and bridges.
+
+If SDN is not used, this step is not required.
+
+---
+
+## 8. TLS certificate
 
 If Proxmox uses:
 - a self-signed certificate
@@ -112,7 +134,7 @@ This is required for connectivity.
 
 ---
 
-## 8. Secret handling
+## 9. Secret handling
 
 The API token:
 - must not be committed to the repository
@@ -124,7 +146,7 @@ Terraform:
 
 ---
 
-## 9. Repository rules
+## 10. Repository rules
 
 The repository must:
 - ignore Terraform state files
@@ -135,7 +157,7 @@ Without the lock file, the setup is not reproducible.
 
 ---
 
-## 10. Conditions for a working setup
+## 11. Conditions for a working setup
 
 Terraform will work only if:
 
@@ -144,6 +166,7 @@ Terraform will work only if:
 - a technical user exists
 - an API token exists
 - the token has ACL permissions
+- SDN permissions are present when SDN is used
 - TLS does not block HTTPS
 - secrets are not stored in the repository
 
@@ -151,16 +174,16 @@ Missing any item will cause initialization or authorization errors.
 
 ---
 
-## 11. Environment changes
+## 12. Environment changes
 
 Any change to:
 - users
 - API tokens
 - ACL permissions
+- SDN configuration
 - TLS certificates
 - Proxmox address
 
 requires updating the Terraform configuration.
 
 These changes are not detected automatically.
-
