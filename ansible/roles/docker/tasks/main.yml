@@ -4,3 +4,4 @@
 - import_tasks: system.yml
 - import_tasks: apt.yml
 - import_tasks: gpg.yml
+- import_tasks: repo.yml
