@@ -27,8 +27,6 @@ terraform.rc
 # Terraform generated Ansible inventory
 ansible/inventories/terraform.yml
 
-# Ansible
-
 # Retry files
 *.retry
 
