@@ -1,0 +1,7 @@
+- name: Install base packages
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+    update_cache: yes
+    cache_valid_time: 300
