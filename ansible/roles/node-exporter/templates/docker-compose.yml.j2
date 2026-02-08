@@ -1,0 +1,16 @@
+services:
+  node_exporter:
+    image: "{{ node_exporter_image }}"
+    container_name: node-exporter
+    restart: unless-stopped
+    network_mode: host
+    pid: host
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+      - "--collector.filesystem.mount-points-exclude={{ node_exporter_fs_exclude_regex }}"
