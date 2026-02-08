@@ -3,3 +3,4 @@
     dest: "{{ docker_sources }}"
     content: "{{ docker_sources_content }}"
     mode: '0644'
+    update_cache: yes

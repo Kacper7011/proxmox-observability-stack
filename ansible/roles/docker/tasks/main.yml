@@ -5,3 +5,4 @@
 - import_tasks: apt.yml
 - import_tasks: gpg.yml
 - import_tasks: repo.yml
+- import_tasks: install.yml
