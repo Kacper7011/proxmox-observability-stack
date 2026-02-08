@@ -6,14 +6,4 @@
       - containerd.io
       - docker-buildx-plugin
       - docker-compose-plugin
-
-- name: Start docker
-  ansible.builtin.systemd:
-    name: docker
-    state: started
-    enabled: yes
-  register: docker_status
-
-- name: Show if docker is running
-  ansible.builtin.debug:
-    msg: "{{ docker_status.status.ActivateState }}"
+      
