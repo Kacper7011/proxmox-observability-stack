@@ -1,5 +1,5 @@
 - name: Install docker
-  hosts: prox-monitoring
+  hosts: all
   become: true
   roles:
     - docker

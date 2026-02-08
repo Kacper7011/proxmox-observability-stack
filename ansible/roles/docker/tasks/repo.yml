@@ -3,4 +3,7 @@
     dest: "{{ docker_sources }}"
     content: "{{ docker_sources_content }}"
     mode: '0644'
+
+- name: Update apt cache after adding repo
+  ansible.builtin.apt:
     update_cache: yes
