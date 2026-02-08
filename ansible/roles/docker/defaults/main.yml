@@ -1,2 +1,5 @@
 ---
 # defaults file for docker
+
+apt_key_dir: /etc/apt/keyrings
+gpg_key_url: https://download.docker.com/linux/ubuntu/gpg
