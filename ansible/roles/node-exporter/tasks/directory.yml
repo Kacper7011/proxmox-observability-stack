@@ -1,0 +1,7 @@
+- name: Create directory /opt/node_exporter if no exists
+  ansible.builtin.file:
+    name: /opt/node_exporter
+    state: directory
+    owner: root
+    group: root
+    mode: '0644'

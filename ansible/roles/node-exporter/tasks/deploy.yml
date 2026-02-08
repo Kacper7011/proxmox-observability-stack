@@ -1,0 +1,8 @@
+- name: Deploy docker-compose for node-exporter
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /opt/node_exporter/docker-compose.yml
+    owner: root
+    group: root
+    mode: '0644'
+    

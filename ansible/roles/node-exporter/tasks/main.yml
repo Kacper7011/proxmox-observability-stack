@@ -1,2 +1,6 @@
 ---
 # tasks file for node_exporter
+
+- import_tasks: directory.yml
+- import_tasks: deploy.yml
+- import_tasks: start.yml
