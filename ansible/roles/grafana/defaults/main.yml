@@ -8,5 +8,5 @@ grafana_plugins:
   - grafana-piechart-panel
   - grafana-clock-panel
 
-prometheus_url: http://localhost:9090
+prometheus_url: "http://{{ hostvars['prox-monitoring']['ansible_host'] }}:9090"
 

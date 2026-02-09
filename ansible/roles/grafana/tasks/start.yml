@@ -1,4 +1,4 @@
-- name: Start prometheus
+- name: Start grafana
   community.docker.docker_compose_v2:
     project_src: /opt/grafana/
     state: present
