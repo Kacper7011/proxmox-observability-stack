@@ -1,0 +1,9 @@
+- name: Deploy docker-compose for prometheus
+  ansible.builtin.template:
+    src: docker-compose.yml.j2 
+    dest: /opt/prometheus/docker-compose.yml
+
+- name: Deploy prometheus.yml for prometheus
+  ansible.builtin.template:
+    src: prometheus.yml.j2
+    dest: /opt/prometheus/prometheus.yml

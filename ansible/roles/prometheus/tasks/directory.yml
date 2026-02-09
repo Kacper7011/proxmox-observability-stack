@@ -1,0 +1,8 @@
+- name: Create directory /opt/prometheus if no exists
+  ansible.builtin.file:
+    name: /opt/prometheus
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+    
