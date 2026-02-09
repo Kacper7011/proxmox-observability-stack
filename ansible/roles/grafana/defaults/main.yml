@@ -8,3 +8,5 @@ grafana_plugins:
   - grafana-piechart-panel
   - grafana-clock-panel
 
+prometheus_url: http://localhost:9090
+
