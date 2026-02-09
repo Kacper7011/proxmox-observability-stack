@@ -3,7 +3,7 @@
 
 grafana_image: grafana/grafana:11.5.0
 grafana_port: 3000
-grafana_admin_password: "admin"
+grafana_admin_password: "admin" # Default Grafana admin password (Grafana enforces change on first login)
 grafana_plugins:
   - grafana-piechart-panel
   - grafana-clock-panel
