@@ -1,0 +1,7 @@
+- name: Create directory /opt/grafana if no exists
+  ansible.builtin.file:
+    name: /opt/grafana
+    state: directory
+    owner: root
+    group: root
+    mode: '0644'

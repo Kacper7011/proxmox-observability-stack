@@ -1,7 +1,7 @@
-- name: Deploy docker-compose for node-exporter
+- name: Deploy docker-compose for grafana
   ansible.builtin.template:
     src: docker-compose.yml.j2
-    dest: /opt/node_exporter/docker-compose.yml
+    dest: /opt/grafana/docker-compose.yml
     owner: root
     group: root
     mode: '0644'

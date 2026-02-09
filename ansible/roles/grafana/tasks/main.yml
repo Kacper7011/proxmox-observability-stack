@@ -1,2 +1,6 @@
 ---
 # tasks file for grafana
+
+- import_tasks: directory.yml
+- import_tasks: deploy.yml
+- import_tasks: start.yml
