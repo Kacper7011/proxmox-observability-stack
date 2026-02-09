@@ -1,38 +1,38 @@
-Role Name
-=========
+# Grafana
 
-A brief description of the role goes here.
+This role installs and configures **Grafana** as part of an observability stack based on Prometheus and Node Exporter.
 
-Requirements
-------------
+Grafana is deployed using **Docker** and is fully configured automatically using **Grafana provisioning**. After deployment, Grafana is ready to use without any manual configuration in the web interface.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+---
 
-Role Variables
---------------
+## What this role does
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+* **Deploys Grafana** using Docker and Docker Compose.
+* **Enables persistent storage** for Grafana data.
+* **Configures Prometheus** as a datasource automatically.
+* **Provisions dashboards** from JSON files.
+* **Optionally installs** additional Grafana plugins.
 
-Dependencies
-------------
+---
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Files description
 
-Example Playbook
-----------------
+| File / Directory | Description |
+| :--- | :--- |
+| `defaults/main.yml` | Defines default configuration values (Docker image, port, admin password, plugins, Prometheus URL). |
+| `tasks/directory.yml` | Creates required directories on the target host for data and provisioning. |
+| `tasks/provisioning.yml` | Handles deployment of datasource and dashboard provisioning files. |
+| `tasks/deploy.yml` | Deploys the Docker Compose configuration using an Ansible template. |
+| `tasks/start.yml` | Starts or updates the Grafana container using Docker Compose v2. |
+| `templates/docker-compose.yml.j2` | Template defining the Grafana service, volumes, and environment variables. |
+| `templates/datasources.yml.j2` | Provisioning file that automatically configures Prometheus as the default datasource. |
+| `templates/dashboards.yml.j2` | Configuration that instructs Grafana to load dashboards from the dashboards directory. |
+| `files/dashboards/` | Contains Grafana dashboard definitions in JSON format for automatic import. |
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+---
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+## Notes
 
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+> * **Default Password:** The default admin password is set to `admin`. Grafana enforces changing this password on the first login.
+> * **Infrastructure as Code:** All configuration is managed through code; no manual UI setup is required.
