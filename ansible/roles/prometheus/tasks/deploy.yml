@@ -4,7 +4,7 @@
     dest: /opt/prometheus/docker-compose.yml
     owner: root
     group: root
-    mode: '0755'
+    mode: '0644'
 
 - name: Deploy prometheus.yml for prometheus
   ansible.builtin.template:
@@ -12,5 +12,5 @@
     dest: /opt/prometheus/prometheus.yml
     owner: root
     group: root
-    mode: '0755'
+    mode: '0644'
   notify: Reload prometheus config
