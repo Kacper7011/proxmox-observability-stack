@@ -1,2 +1,6 @@
 ---
 # defaults file for prometheus
+prometheus_image: prom/prometheus:v3.2.1
+prometheus_port: 9090
+prometheus_data_volume: "prometheus_data"
+prometheus_retention_days: "15d"
