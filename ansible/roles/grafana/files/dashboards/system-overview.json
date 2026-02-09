@@ -1,0 +1,42 @@
+{
+  "title": "System Overview",
+  "uid": "system-overview",
+  "panels": [
+    {
+      "title": "CPU Busy",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [{ "expr": "100 * (1 - avg(rate(node_cpu_seconds_total{mode='idle', instance='$node'}[$__rate_interval])))" }],
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100 } }
+    },
+    {
+      "title": "RAM Used",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 6, "x": 6, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [{ "expr": "(1 - (node_memory_MemAvailable_bytes{instance='$node'} / node_memory_MemTotal_bytes{instance='$node'})) * 100" }],
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100 } }
+    },
+    {
+      "title": "Uptime",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [{ "expr": "node_time_seconds{instance='$node'} - node_boot_time_seconds{instance='$node'}" }],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "node",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "Prometheus" },
+        "query": "label_values(node_cpu_seconds_total, instance)",
+        "refresh": 1
+      }
+    ]
+  },
+  "schemaVersion": 39
+}

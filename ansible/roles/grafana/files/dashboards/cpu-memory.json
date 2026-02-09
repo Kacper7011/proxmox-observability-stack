@@ -1,0 +1,38 @@
+{
+  "title": "CPU and Memory Trends",
+  "uid": "cpu-memory",
+  "panels": [
+    {
+      "title": "CPU Load Trend",
+      "type": "timeseries",
+      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [
+        { "expr": "node_load1{instance='$node'}", "legendFormat": "1 min" },
+        { "expr": "node_load5{instance='$node'}", "legendFormat": "5 min" }
+      ]
+    },
+    {
+      "title": "Memory Usage Trend",
+      "type": "timeseries",
+      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "targets": [
+        { "expr": "node_memory_MemTotal_bytes{instance='$node'} - node_memory_MemAvailable_bytes{instance='$node'}", "legendFormat": "Used RAM" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "bytes" } }
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "node",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "Prometheus" },
+        "query": "label_values(node_cpu_seconds_total, instance)",
+        "refresh": 1
+      }
+    ]
+  },
+  "schemaVersion": 39
+}
