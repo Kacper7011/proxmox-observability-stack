@@ -1,2 +1,8 @@
 ---
 # handlers file for prometheus
+
+- name: Reload prometheus config
+  ansible.builtin.uri:
+    url: "http://localhost:{{ prometheus_port }}/-/reload"
+    method: POST
+    status_code: 200
