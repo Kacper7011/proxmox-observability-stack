@@ -1,0 +1,24 @@
+- name: Prepare Infrastructure
+  hosts: all:!localhost
+  become: true
+  roles:
+    - role: bootstrap
+      tags: [ 'bootstrap', 'setup' ]
+    - role: docker
+      tags: [ 'docker', 'infra' ]
+
+- name: Install Monitoring Agents
+  hosts: all:!localhost
+  become: true
+  roles:
+    - role: node-exporter
+      tags: [ 'node_exporter', 'agents' ]
+
+- name: Deploy Central Monitoring Stack
+  hosts: prox-monitoring
+  become: true
+  roles:
+    - role: prometheus
+      tags: [ 'prometheus', 'server' ]
+    - role: grafana
+      tags: [ 'grafana', 'server' ]
