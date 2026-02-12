@@ -1,38 +1,48 @@
-Role Name
-=========
+# Prometheus
 
-A brief description of the role goes here.
+This role installs and configures **Prometheus** as part of a monitoring stack.
 
-Requirements
-------------
+Prometheus is deployed using **Docker** and **Docker Compose v2**. The configuration is fully managed through Ansible templates, allowing Prometheus to be deployed and updated without manual changes on the target host.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+After deployment, Prometheus is ready to scrape configured targets immediately.
 
-Role Variables
---------------
+---
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## What this role does
 
-Dependencies
-------------
+* **Creates required directories** on the target host.
+* **Deploys Docker Compose configuration** for Prometheus.
+* **Deploys Prometheus configuration** (`prometheus.yml`) from a template.
+* **Starts or updates the Prometheus container** using Docker Compose v2.
+* **Triggers configuration reload** when the Prometheus configuration changes.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+---
 
-Example Playbook
-----------------
+## Files description
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+| File / Directory | Description |
+| :--- | :--- |
+| `tasks/main.yml` | Entry point for the role. Imports `directory.yml`, `deploy.yml`, and `start.yml`. |
+| `tasks/directory.yml` | Creates the `/opt/prometheus` directory on the target host. |
+| `tasks/deploy.yml` | Deploys `docker-compose.yml` and `prometheus.yml` from templates. |
+| `tasks/start.yml` | Starts or updates Prometheus using `community.docker.docker_compose_v2`. |
+| `templates/docker-compose.yml.j2` | Template defining the Prometheus service, volumes, and ports. |
+| `templates/prometheus.yml.j2` | Template containing the Prometheus scrape configuration. |
+| `handlers/main.yml` | Contains handler for reloading Prometheus configuration (if defined). |
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+---
 
-License
--------
+## Deployment Details
 
-BSD
+* **Installation path:** `/opt/prometheus`
+* **Orchestration:** Docker Compose v2
+* **Configuration management:** Fully template-based via Ansible
+* **Container lifecycle:** Managed declaratively (`state: present`)
 
-Author Information
-------------------
+---
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## Notes
+
+> * This role assumes Docker and Docker Compose v2 are already installed on the target host.
+> * Any changes to `prometheus.yml` trigger a configuration reload via handler.
+> * All configuration is managed as code — no manual edits on the host are required.
