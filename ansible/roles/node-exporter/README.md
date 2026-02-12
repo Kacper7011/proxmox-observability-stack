@@ -1,38 +1,47 @@
-Role Name
-=========
+# Node Exporter
 
-A brief description of the role goes here.
+This role installs and configures **Node Exporter** as part of a monitoring stack based on Prometheus.
 
-Requirements
-------------
+Node Exporter is deployed using **Docker** and **Docker Compose v2**. It exposes system-level metrics from the host machine, which can be scraped by Prometheus.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+After deployment, Node Exporter is immediately available on the configured port and ready to be scraped.
 
-Role Variables
---------------
+---
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## What this role does
 
-Dependencies
-------------
+* **Creates required directories** on the target host.
+* **Deploys Docker Compose configuration** for Node Exporter.
+* **Configures container runtime options** (network mode, volumes, restart policy).
+* **Starts or updates the Node Exporter container** using Docker Compose v2.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+---
 
-Example Playbook
-----------------
+## Files description
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+| File / Directory | Description |
+| :--- | :--- |
+| `tasks/main.yml` | Entry point for the role. Imports `directory.yml`, `deploy.yml`, and `start.yml`. |
+| `tasks/directory.yml` | Creates the `/opt/node-exporter` directory on the target host. |
+| `tasks/deploy.yml` | Deploys `docker-compose.yml` from a template. |
+| `tasks/start.yml` | Starts or updates Node Exporter using `community.docker.docker_compose_v2`. |
+| `templates/docker-compose.yml.j2` | Template defining the Node Exporter service, volumes, network mode, and restart policy. |
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+---
 
-License
--------
+## Deployment Details
 
-BSD
+* **Installation path:** `/opt/node-exporter`
+* **Default port:** `9100`
+* **Orchestration:** Docker Compose v2
+* **Container lifecycle:** Managed declaratively (`state: present`)
+* **Metrics endpoint:** `http://<host>:9100/metrics`
 
-Author Information
-------------------
+---
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## Notes
+
+> * This role assumes Docker and Docker Compose v2 are already installed on the target host.
+> * Node Exporter runs with access to host system metrics via mounted system paths (e.g., `/proc`, `/sys`).
+> * No additional configuration is required unless custom collectors or flags are needed.
+> * All configuration is managed as code — no manual edits on the host are required.
