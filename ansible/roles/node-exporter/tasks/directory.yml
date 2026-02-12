@@ -1,4 +1,4 @@
-- name: Create directory /opt/node_exporter if no exists
+- name: Create directory /opt/node_exporter if it doesn't exist
   ansible.builtin.file:
     name: /opt/node_exporter
     state: directory

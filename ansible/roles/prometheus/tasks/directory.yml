@@ -1,4 +1,4 @@
-- name: Create directory /opt/prometheus if no exists
+- name: Create directory /opt/prometheus if it doesn't exist
   ansible.builtin.file:
     name: /opt/prometheus
     state: directory

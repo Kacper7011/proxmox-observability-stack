@@ -1,4 +1,4 @@
-- name: Create directory /opt/grafana if no exists
+- name: Create directory /opt/grafana if it doesn't exist
   ansible.builtin.file:
     name: /opt/grafana
     state: directory
