@@ -1,38 +1,64 @@
-Role Name
-=========
+# Docker
 
-A brief description of the role goes here.
+This role installs and configures **Docker Engine** on Debian/Ubuntu-based systems.
 
-Requirements
-------------
+Docker is installed from the official Docker APT repository. The role configures required dependencies, adds the GPG key, sets up the repository, installs Docker packages, and ensures the service is enabled and running.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+After execution, the host is ready to run containers and Docker Compose v2.
 
-Role Variables
---------------
+---
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## What this role does
 
-Dependencies
-------------
+* **Installs required system dependencies**
+* **Adds Docker official GPG key**
+* **Configures Docker APT repository**
+* **Installs Docker Engine and related packages**
+* **Ensures Docker service is enabled and started**
+* **Creates and configures the `docker` group**
+* **Optionally adds users to the docker group**
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+---
 
-Example Playbook
-----------------
+## Files description
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+| File | Description |
+| :--- | :--- |
+| `tasks/main.yml` | Entry point for the role. Imports all Docker-related task files. |
+| `tasks/system.yml` | Performs system preparation tasks and package updates. |
+| `tasks/apt.yml` | Installs required APT dependencies. |
+| `tasks/gpg.yml` | Adds Docker’s official GPG key. |
+| `tasks/repo.yml` | Configures the official Docker APT repository. |
+| `tasks/install.yml` | Installs Docker Engine, CLI, container runtime, and Docker Compose plugin. |
+| `tasks/group.yml` | Creates the `docker` group and optionally assigns users. |
+| `tasks/start.yml` | Enables and starts the Docker service. |
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+---
 
-License
--------
+## Deployment Details
 
-BSD
+* **Supported systems:** Debian / Ubuntu
+* **Installation source:** Official Docker APT repository
+* **Service management:** systemd
+* **Compose version:** Docker Compose v2 (plugin-based)
 
-Author Information
-------------------
+---
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## Installed Packages
+
+The role installs:
+
+* `docker-ce`
+* `docker-ce-cli`
+* `containerd.io`
+* `docker-buildx-plugin`
+* `docker-compose-plugin`
+
+---
+
+## Notes
+
+> * Root or sudo privileges are required.
+> * Users added to the `docker` group must log out and log back in for group membership to apply.
+> * The role uses the official Docker repository rather than distribution-provided packages.
+> * All configuration is managed as code — no manual installation steps are required.
