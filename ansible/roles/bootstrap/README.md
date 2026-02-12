@@ -1,38 +1,50 @@
-Role Name
-=========
+# Bootstrap
 
-A brief description of the role goes here.
+This role prepares a fresh Linux server for further automation and deployment.
 
-Requirements
-------------
+It performs essential system configuration tasks such as hostname setup, user management, SSH hardening, sudo configuration, time synchronization, and base system updates.  
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The role is intended to be executed on newly provisioned hosts before deploying application or infrastructure roles.
 
-Role Variables
---------------
+---
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## What this role does
 
-Dependencies
-------------
+* **Configures system hostname**
+* **Creates and manages users**
+* **Configures SSH access and hardening**
+* **Configures sudo privileges**
+* **Sets system timezone and time synchronization**
+* **Performs basic system configuration and updates**
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+---
 
-Example Playbook
-----------------
+## Files description
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+| File | Description |
+| :--- | :--- |
+| `tasks/main.yml` | Entry point for the role. Imports all bootstrap task files. |
+| `tasks/hostname.yml` | Sets the system hostname. |
+| `tasks/users.yml` | Creates users and configures SSH authorized keys. |
+| `tasks/ssh.yml` | Configures SSH daemon settings (e.g., disabling password authentication, root login policy). |
+| `tasks/sudo.yml` | Configures sudo access for defined users or groups. |
+| `tasks/time.yml` | Configures timezone and time synchronization settings. |
+| `tasks/system.yml` | Performs base system configuration tasks and package updates. |
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+---
 
-License
--------
+## Deployment Details
 
-BSD
+* **Target systems:** Fresh Linux hosts
+* **Execution stage:** Initial provisioning
+* **Privileges required:** Root or sudo access
+* **Configuration management:** Fully defined in Ansible tasks
 
-Author Information
-------------------
+---
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## Notes
+
+> * This role should be executed before infrastructure roles such as Docker, Prometheus, Grafana, or Node Exporter.
+> * It is recommended to disable SSH password authentication and root login for production environments.
+> * Ensure at least one administrative user with SSH key access is configured before restricting SSH access.
+> * All system configuration is managed as code — no manual server preparation is required.
