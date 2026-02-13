@@ -7,8 +7,7 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   - job_name: 'node_exporter'
-    static_configs:
-      - targets:
-{% for host in groups['all'] %}
-        - {{ hostvars[host].ansible_host }}:9100
-{% endfor %}
+    file_sd_configs:
+      - files:
+          - /etc/prometheus/targets/node_exporter.json
+        refresh_interval: 15s

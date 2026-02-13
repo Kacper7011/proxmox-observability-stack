@@ -14,3 +14,11 @@
     group: root
     mode: '0644'
   notify: Reload prometheus config
+
+- name: Deploy node_exporter targets file
+  ansible.builtin.template:
+    src: node_exporter.json.j2
+    dest: /opt/prometheus/targets/node_exporter.json
+    owner: root
+    group: root
+    mode: '0644'
