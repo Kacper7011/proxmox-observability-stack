@@ -11,7 +11,7 @@ The entire environment is managed as **Infrastructure as Code (IaC)** and can be
 * **Cloud-init Based Provisioning:** Automated VM initialization with predefined user, SSH, and security configuration.
 * **Automated System Bootstrap:** SSH hardening, user management, and base system setup performed via Ansible roles.
 * **Dockerized Monitoring Stack:** Prometheus, Grafana, and Node Exporter deployed in a modular and reproducible way.
-* **Dynamic Configuration Generation:** Prometheus targets and Grafana datasources/dashboards are generated automatically from the Ansible inventory during deployment.
+* **File-Based Service Discovery:** Prometheus uses file-based service discovery and automatically reloads scrape targets generated from the Ansible inventory.
 
 ## 🛠 Technology Stack
 * **Virtualization:** Proxmox VE
