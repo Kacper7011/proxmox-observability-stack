@@ -39,6 +39,9 @@ inventory/generated/
 inventory/*.json
 inventory/*.yaml
 
+# My Inventory
+ansible/inventories/hosts.yml
+
 # Vault
 *.vault
 vault.yml
