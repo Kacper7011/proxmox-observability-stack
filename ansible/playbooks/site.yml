@@ -1,18 +1,18 @@
-- name: Prepare Infrastructure
-  hosts: all:!localhost
+- name: Prepare Infrastructure (VM only)
+  hosts: vm_nodes:!prox-managament
   become: true
   roles:
     - role: bootstrap
-      tags: [ 'bootstrap', 'setup' ]
+      tags: ['bootstrap', 'setup']
     - role: docker
-      tags: [ 'docker', 'infra' ]
+      tags: ['docker', 'infra']
 
-- name: Install Monitoring Agents
-  hosts: all:!localhost
+- name: Install Monitoring Agents on VMs
+  hosts: vm_nodes:!prox-managament
   become: true
   roles:
     - role: node-exporter
-      tags: [ 'node_exporter', 'agents' ]
+      tags: ['node_exporter', 'agents']
 
 - name: Deploy Central Monitoring Stack
   hosts: prox-monitoring

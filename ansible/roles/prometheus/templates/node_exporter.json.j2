@@ -1,7 +1,7 @@
 [
   {
     "targets": [
-{% for host in groups['nodes'] %}
+{% for host in groups['monitored_nodes'] %}
       "{{ hostvars[host].ansible_host }}:9100"{% if not loop.last %},{% endif %}
 {% endfor %}
     ],
