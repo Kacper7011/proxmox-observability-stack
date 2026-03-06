@@ -1,5 +1,5 @@
-- name: Prepare Infrastructure (VM only)
-  hosts: vm_nodes:!prox-managament
+- name: Prepare Infrastructure
+  hosts: prox-monitoring
   become: true
   roles:
     - role: bootstrap
@@ -8,7 +8,7 @@
       tags: ['docker', 'infra']
 
 - name: Install Monitoring Agents on VMs
-  hosts: vm_nodes:!prox-managament
+  hosts: vm_nodes,prox-monitoring
   become: true
   roles:
     - role: node-exporter
